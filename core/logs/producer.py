@@ -1,6 +1,6 @@
 import pika
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 rabbit_host = '10.128.0.12'
 rabbit_user = 'admin'
@@ -15,7 +15,7 @@ def log(document: str, level: str, message: str):
             pika.ConnectionParameters(host=rabbit_host, credentials=pika.PlainCredentials(rabbit_user, rabbit_password)))
         channel = connection.channel()
         channel.exchange_declare(exchange=exchange, exchange_type='topic')
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         for topic in topics:
             payload = {
                 'level': level,
