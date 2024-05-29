@@ -1,7 +1,7 @@
 from ....mongodb import clientes
 from .schemas import ClienteCreateSchema, ClienteSchema, ClienteUpdateSchema
 from core.exceptions import ClienteDoesNotExist, ClienteAlreadyExists, EmailAlreadyExists
-
+from core.logs.producer import log
 
 def create(cliente : ClienteCreateSchema) -> ClienteSchema:
     if exists(cliente.document):
@@ -9,6 +9,7 @@ def create(cliente : ClienteCreateSchema) -> ClienteSchema:
     if email_exists(cliente.email):
         raise EmailAlreadyExists()
     result = clientes.insert_one(cliente.model_dump())
+    log(document=cliente.document, level="INFO", message="Cliente creado exitosamente") 
     data= ClienteSchema(
         _id=str(result.inserted_id),
         name=cliente.name,
