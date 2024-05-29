@@ -1,23 +1,26 @@
-from fastapi import APIRouter
-
+from fastapi import APIRouter, Query
+from .schemas import ClienteCreateSchema, ClienteUpdateSchema
+from core.apps.V1.clientes import controller
+from typing import Annotated 
 router=APIRouter()
 
-@router.get("/")
-def get_all_clientes():
-    return {"message": "Get all clientes"}
 
-@router.get("/{id}")
-def get_cliente(id: int):
-    return {"message": f"Get cliente {id}"}
+@router.get("/")
+def get_all():
+    return controller.get_all()
+
+@router.get("/{document}")
+def get_cliente(document: Annotated[str, "Document of the cliente to get"]):
+    return controller.get_by_document(document)
 
 @router.post("/")
-def create_cliente():
-    return {"message": "Create cliente"}
+async def create_cliente(cliente: ClienteCreateSchema):
+    return controller.create(cliente)
 
-@router.put("/{id}")
-def update_cliente(id: int):
-    return {"message": f"Update cliente {id}"}
+@router.put("/{document}")
+def update_cliente(document: str, cliente: ClienteUpdateSchema):
+    return controller.update(document, cliente)
 
-@router.delete("/{id}")
-def delete_cliente(id: int):
-    return {"message": f"Delete cliente {id}"}
+@router.delete("/{document}")
+def delete_cliente(document: Annotated[str, "Document of the cliente to delete"]):
+    return controller.delete(document)
