@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Query
 from .schemas import ClienteCreateSchema, ClienteUpdateSchema
 from core.apps.V1.clientes import controller
-from typing import Annotated 
 router=APIRouter()
 
 
@@ -10,7 +9,7 @@ def get_all():
     return controller.get_all()
 
 @router.get("/{document}")
-def get_cliente(document: Annotated[str, "Document of the cliente to get"]):
+def get_cliente(document: str):
     return controller.get_by_document(document)
 
 @router.post("/")
@@ -22,5 +21,5 @@ def update_cliente(document: str, cliente: ClienteUpdateSchema):
     return controller.update(document, cliente)
 
 @router.delete("/{document}")
-def delete_cliente(document: Annotated[str, "Document of the cliente to delete"]):
+def delete_cliente(document: str):
     return controller.delete(document)
