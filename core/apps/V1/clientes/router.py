@@ -4,22 +4,22 @@ from core.apps.V1.clientes import controller
 router=APIRouter()
 
 
-@router.get("/")
+@router.get("/clientes/")
 def get_all():
     return controller.get_all()
 
-@router.get("/{document}")
+@router.get("/cliente/{document}")
 def get_cliente(document: int):
     return controller.get_by_document(document)
 
-@router.post("/")
+@router.post("/createCliente/")
 async def create_cliente(cliente: ClienteCreateSchema):
     return controller.create(cliente)
 
-@router.put("/{document}")
+@router.put("/updateCliente/{document}")
 def update_cliente(document: int, cliente: ClienteUpdateSchema):
     return controller.update(document, cliente)
 
-@router.delete("/{document}")
+@router.delete("/clienteDelete/{document}")
 def delete_cliente(document: int):
     return controller.delete(document)
