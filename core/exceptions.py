@@ -39,7 +39,7 @@ class EmailAlreadyExists(HTTPException):
         return self.message
     
 async def EmailAlreadyExistsHandler(request: Request, exc: EmailAlreadyExists):
-    log(email=request.path_params.get('document'), level="ERROR", message=exc.message)
+    log(document=request.path_params.get('document'), level="ERROR", message=exc.message)
     return JSONResponse(status_code=exc.status_code, 
     content={"message": exc.message})
     
