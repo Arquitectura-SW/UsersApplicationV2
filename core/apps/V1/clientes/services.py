@@ -83,7 +83,6 @@ def email_exists(email: str) -> bool:
 
 def get_all():
     data = clientes.find()
-    log(level="INFO", message="Se retorno la informacion de todos los clientes")
     return [ClienteSchema(
         _id=str(item.get('_id')),
         name=item.get('name'),
