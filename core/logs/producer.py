@@ -1,6 +1,6 @@
 import pika
 import json
-import datetime
+from datetime import datetime
 
 rabbit_host = '10.128.0.12'
 rabbit_user = 'admin'
@@ -21,10 +21,9 @@ def log(document: str, level: str, message: str):
                 'level': level,
                 'message': message,
                 'user': document,
-                'timestamp': datetime.datetime.now().isoformat(),
+                'timestamp': datetime.now().isoformat()
             }
-            message = json.dumps(payload)
-            channel.basic_publish(exchange=exchange, routing_key=topic, body=message)
+            channel.basic_publish(exchange=exchange, routing_key=topic, body=json.dumps(payload))
         connection.close()
     except pika.exceptions.AMQPConnectionError as e:
         print(f"Failed to connect to RabbitMQ: {e}")
