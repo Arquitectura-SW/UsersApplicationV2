@@ -15,14 +15,15 @@ def log(document: str, level: str, message: str):
             pika.ConnectionParameters(host=rabbit_host, credentials=pika.PlainCredentials(rabbit_user, rabbit_password)))
         channel = connection.channel()
         channel.exchange_declare(exchange=exchange, exchange_type='topic')
-
+        timestamp = datetime.now().isoformat()
         for topic in topics:
             payload = {
                 'level': level,
                 'message': message,
                 'user': document,
-                'timestamp': datetime.now().isoformat()
+                'timestamp': timestamp
             }
+            print(f"{level} - {message} - {document} - {timestamp}")
             channel.basic_publish(exchange=exchange, routing_key=topic, body=json.dumps(payload))
         connection.close()
     except pika.exceptions.AMQPConnectionError as e:
