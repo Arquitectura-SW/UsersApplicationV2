@@ -78,7 +78,7 @@ def email_exists(email: str) -> bool:
         return True
     return False
 
-def get_all() -> list[ClienteSchema]:
+def get_all():
     data = clientes.find()
     return [ClienteSchema(
         _id=str(item.get('_id')),
