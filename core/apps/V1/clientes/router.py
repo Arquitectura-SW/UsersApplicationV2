@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 from .schemas import ClienteCreateSchema, ClienteUpdateSchema
 from core.apps.V1.clientes import controller
 router=APIRouter()
@@ -9,7 +9,7 @@ def get_all():
     return controller.get_all()
 
 @router.get("/{document}")
-def get_cliente(document: int = Query(..., ge=99999, le=999999999999999)):
+def get_cliente(document: int):
     return controller.get_by_document(document)
 
 @router.post("/")
