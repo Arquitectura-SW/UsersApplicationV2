@@ -5,7 +5,7 @@ import datetime
 class ClienteCreateSchema(BaseModel):
     name: str = Field(..., max_length=150)
     lastName: str = Field(..., max_length=150)
-    document: str = Field(..., min_length=8, max_length=15)
+    document: int = Field(..., ge=99999, le=999999999999999)
     birthdate: str = Field(...)
     email: EmailStr = Field(...)
     country: str = Field(..., max_length=50)
@@ -40,7 +40,7 @@ class ClienteSchema(ClienteCreateSchema):
     name: str = Field(..., max_length=150)
     lastName: str = Field(..., max_length=150)
     birthdate: str = Field(...)
-    document: str = Field(..., min_length=8, max_length=15)
+    document: int = Field(..., ge=99999, le=999999999999999)
     email: EmailStr = Field(...)
     country: str = Field(..., max_length=50)
     city: str = Field(..., max_length=50)

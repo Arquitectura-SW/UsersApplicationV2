@@ -27,7 +27,7 @@ def create(cliente : ClienteCreateSchema) -> ClienteSchema:
     )
     return data
 
-def get_by_document(document: str) -> ClienteSchema:
+def get_by_document(document: int) -> ClienteSchema:
     data = clientes.find_one({"document": document})
     if not data:
         raise ClienteDoesNotExist()
@@ -97,7 +97,7 @@ def get_all():
         profession=item.get('profession')
     ) for item in data]
 
-def delete(document: str) -> bool:
+def delete(document: int) -> bool:
     print(document)
     if not exists(document):
         print("entro")
@@ -106,7 +106,7 @@ def delete(document: str) -> bool:
         return True
     return False
 
-def update(document: str, client: ClienteUpdateSchema) -> ClienteSchema:
+def update(document: int, client: ClienteUpdateSchema) -> ClienteSchema:
     if not exists(document):
         raise ClienteDoesNotExist()
     data= clientes.find_one_and_update({"document": document}, {"$set": client.model_dump()}, return_document=True)
