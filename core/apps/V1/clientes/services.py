@@ -31,6 +31,7 @@ def get_by_document(document: int) -> ClienteSchema:
     data = clientes.find_one({"document": document})
     if not data:
         raise ClienteDoesNotExist()
+    log(document=document, level="INFO", message="Se retorno la informacion del cliente")
     return ClienteSchema(
         _id=str(data.get('_id')),
         name=data.get('name'),
@@ -51,6 +52,7 @@ def get_by_email(email: str) -> ClienteSchema:
     data = clientes.find_one({"email": email})
     if not data:
         raise EmailAlreadyExists()
+    log(email=email, level="INFO", message="Se retorno la informacion del cliente")
     return ClienteSchema(
         _id=str(data.get('_id')),
         name=data.get('name'),
@@ -81,6 +83,7 @@ def email_exists(email: str) -> bool:
 
 def get_all():
     data = clientes.find()
+    log(level="INFO", message="Se retorno la informacion de todos los clientes")
     return [ClienteSchema(
         _id=str(item.get('_id')),
         name=item.get('name'),
@@ -98,11 +101,11 @@ def get_all():
     ) for item in data]
 
 def delete(document: int) -> bool:
-    print(document)
     if not exists(document):
         print("entro")
         raise ClienteDoesNotExist()
     if clientes.delete_one({"document": document}):
+        log(document=document, level="INFO", message="Cliente eliminado exitosamente")
         return True
     return False
 
@@ -110,7 +113,7 @@ def update(document: int, client: ClienteUpdateSchema) -> ClienteSchema:
     if not exists(document):
         raise ClienteDoesNotExist()
     data= clientes.find_one_and_update({"document": document}, {"$set": client.model_dump()}, return_document=True)
-    
+    log(document=document, level="INFO", message="Cliente actualizado exitosamente")
     return ClienteSchema(
         _id=str(data.get('_id')),
         name=data.get('name'),

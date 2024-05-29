@@ -2,6 +2,7 @@
 from fastapi.responses import JSONResponse
 from fastapi import Request, status
 from fastapi.exceptions import HTTPException
+from core.logs.producer import log
 
 class ClienteDoesNotExist(HTTPException):
     def __init__(self, *args, **kwargs):
@@ -12,6 +13,7 @@ class ClienteDoesNotExist(HTTPException):
         return self.message
         
 async def ClienteDoesNotExistHandler(request: Request, exc: ClienteDoesNotExist):
+    log(document=request.path_params.get('document'), level="ERROR", message=exc.message)
     return JSONResponse(status_code=exc.status_code, 
     content={"message": exc.message})
 
@@ -24,6 +26,7 @@ class ClienteAlreadyExists(HTTPException):
         return self.message
     
 async def ClienteAlreadyExistsHandler(request: Request, exc: ClienteAlreadyExists):
+    log(document=request.path_params.get('document'), level="ERROR", message=exc.message)
     return JSONResponse(status_code=exc.status_code, 
     content={"message": exc.message})
 
@@ -36,6 +39,7 @@ class EmailAlreadyExists(HTTPException):
         return self.message
     
 async def EmailAlreadyExistsHandler(request: Request, exc: EmailAlreadyExists):
+    log(email=request.path_params.get('email'), level="ERROR", message=exc.message)
     return JSONResponse(status_code=exc.status_code, 
     content={"message": exc.message})
     
