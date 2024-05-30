@@ -28,7 +28,7 @@ def create(cliente : ClienteCreateSchema) -> ClienteSchema:
     return data
 
 def get_by_document(document: int) -> ClienteSchema:
-    data = clientes.find_one({"document": document})
+    data = clientes.find_one({"document": str(document)})
     if not data:
         print("No existe el cliente")
         print(data)
