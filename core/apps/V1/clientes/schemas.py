@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, field_validator
 from typing import Optional
+import re
 import datetime
 
 class ClienteCreateSchema(BaseModel):
@@ -33,6 +34,22 @@ class ClienteCreateSchema(BaseModel):
                 "profession": "Software Engineer"
             }
         }
+        
+    @field_validator('birthdate')
+    def validate_birthdate(cls, v):
+        try:
+            datetime.strptime(v, '%Y-%m-%d')
+        except ValueError:
+            raise ValueError('birthdate must be in the format YYYY-MM-DD')
+        return v
+
+    @field_validator('name', 'lastName', 'country', 'city', 'economicActivity', 'company', 'profession')
+    def strip_and_sanitize(cls, v):
+        # Strip whitespace
+        v = v.strip()
+        # Remove any characters that could be used for injection
+        v = re.sub(r'[^\w\s-]', '', v)
+        return v
 
 
 class ClienteSchema(ClienteCreateSchema):
