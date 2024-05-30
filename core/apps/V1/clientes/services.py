@@ -105,7 +105,7 @@ def delete(document: int) -> bool:
     if not exists(document):
         print("entro")
         raise ClienteDoesNotExist()
-    if clientes.delete_one({"document": str(document)})
+    if clientes.delete_one({"document": str(document)}):
         log(document=document, level="INFO", message="Cliente eliminado exitosamente")
         return True
     return False
