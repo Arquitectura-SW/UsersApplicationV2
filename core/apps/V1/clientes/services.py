@@ -30,6 +30,8 @@ def create(cliente : ClienteCreateSchema) -> ClienteSchema:
 def get_by_document(document: int) -> ClienteSchema:
     data = clientes.find_one({"document": document})
     if not data:
+        print("No existe el cliente")
+        print(data)
         raise ClienteDoesNotExist()
     log(document=document, level="INFO", message="Se retorno la informacion del cliente")
     return ClienteSchema(
