@@ -2,7 +2,7 @@ import pika
 import json
 from datetime import datetime, timezone
 
-rabbit_host = '10.128.0.12'
+rabbit_host = '10.128.0.14'
 rabbit_user = 'admin'
 rabbit_password = 'admin'
 exchange = 'BancoLosAlpes'
