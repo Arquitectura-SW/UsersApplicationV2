@@ -73,6 +73,7 @@ def get_by_email(email: str) -> ClienteSchema:
 
 def exists(document: int) -> bool:
     data= clientes.find_one({"document": str(document)})
+    print(data)
     if data:
         return True
     return False
