@@ -40,6 +40,17 @@ class ClienteCreateSchema(BaseModel):
         v = v.strip()
         # Remove any characters that could be used for injection
         v = re.sub(r'[^\w\s-]', '', v)
+
+        # Check for MongoDB operators and functions
+        dangerous_terms = [
+            'find', 'find_one', 'delete_one', 'update_one', 'aggregate', 
+            '$gt', '$lt', '$ne', '$in', '$nin', '$regex', '$or', '$and',
+            'db.', 'drop', 'adminCommand', 'ping'
+        ]
+        for term in dangerous_terms:
+            if term.lower() in v.lower():
+                raise ValueError(f"Potentially dangerous term '{term}' found in input.")
+        
         return v
 
 
