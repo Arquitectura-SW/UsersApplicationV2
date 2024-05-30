@@ -34,15 +34,6 @@ class ClienteCreateSchema(BaseModel):
                 "profession": "Software Engineer"
             }
         }
-        
-    @field_validator('birthdate')
-    def validate_birthdate(cls, v):
-        try:
-            datetime.strptime(v, '%Y-%m-%d')
-        except ValueError:
-            raise ValueError('birthdate must be in the format YYYY-MM-DD')
-        return v
-
     @field_validator('name', 'lastName', 'country', 'city', 'economicActivity', 'company', 'profession')
     def strip_and_sanitize(cls, v):
         # Strip whitespace
