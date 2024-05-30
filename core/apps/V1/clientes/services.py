@@ -72,7 +72,7 @@ def get_by_email(email: str) -> ClienteSchema:
     )
 
 def exists(document: int) -> bool:
-    data= clientes.find_one({"document": document})
+    data= clientes.find_one({"document": str(document)})
     if data:
         return True
     return False
@@ -105,7 +105,7 @@ def delete(document: int) -> bool:
     if not exists(document):
         print("entro")
         raise ClienteDoesNotExist()
-    if clientes.delete_one({"document": document}):
+    if clientes.delete_one({"document": str(document)})
         log(document=document, level="INFO", message="Cliente eliminado exitosamente")
         return True
     return False
@@ -113,7 +113,7 @@ def delete(document: int) -> bool:
 def update(document: int, client: ClienteUpdateSchema) -> ClienteSchema:
     if not exists(document):
         raise ClienteDoesNotExist()
-    data= clientes.find_one_and_update({"document": document}, {"$set": client.model_dump()}, return_document=True)
+    data= clientes.find_one_and_update({"document": str(document)}, {"$set": client.model_dump()}, return_document=True)
     log(document=document, level="INFO", message="Cliente actualizado exitosamente")
     return ClienteSchema(
         _id=str(data.get('_id')),
