@@ -22,7 +22,7 @@ def update(id: int, cliente: ClienteUpdateSchema) -> JSONResponse:
     return JSONResponse(status_code=200, content=data.model_dump())
     
 def delete(document: int) -> JSONResponse:
-    data=services.delete(document)
+    services.delete(document)
     return JSONResponse(status_code=200, content={
         "message": "Cliente deleted successfully"
     })

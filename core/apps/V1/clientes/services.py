@@ -103,6 +103,7 @@ def get_all():
 
 def delete(document: int) -> bool:
     if not exists(document):
+        print(document)
         print("entro")
         raise ClienteDoesNotExist()
     if clientes.delete_one({"document": str(document)}):

@@ -23,7 +23,6 @@ def log(document: str, level: str, message: str):
                 'user': document,
                 'timestamp': timestamp
             }
-            print(f"{level} - {message} - {document} - {timestamp}")
             channel.basic_publish(exchange=exchange, routing_key=topic, body=json.dumps(payload))
         connection.close()
     except pika.exceptions.AMQPConnectionError as e:
